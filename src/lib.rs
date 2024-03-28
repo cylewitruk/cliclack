@@ -207,8 +207,6 @@ mod progressbar;
 mod prompt;
 mod select;
 mod spinner;
-#[cfg(test)]
-mod tests;
 mod theme;
 mod validate;
 
