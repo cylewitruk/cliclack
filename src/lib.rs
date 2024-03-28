@@ -207,10 +207,10 @@ mod progressbar;
 mod prompt;
 mod select;
 mod spinner;
-mod theme;
-mod validate;
 #[cfg(test)]
 mod tests;
+mod theme;
+mod validate;
 
 use console::Term;
 use progressbar::{MultiProgressBar, ProgressBar};
