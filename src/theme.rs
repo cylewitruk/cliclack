@@ -488,7 +488,6 @@ pub trait Theme {
             .tick_chars(&self.spinner_chars())
             .progress_chars(&self.progress_chars())
     }
-    // u'░█',
 
     /// Returns the progressbar start style for the [`indicatif::ProgressBar`].
     fn format_progressbar_stop(&self, msg: &str) -> String {
@@ -511,7 +510,7 @@ pub trait Theme {
         ProgressStyle::with_template(&template)
             .unwrap()
             .tick_chars(&self.spinner_chars())
-            .progress_chars("█░-")
+            .progress_chars(&self.progress_chars())
     }
 
     /// Returns the progressbar with a final message in a specified state.
