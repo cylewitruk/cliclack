@@ -486,7 +486,7 @@ pub trait Theme {
         ProgressStyle::with_template(&template)
             .unwrap()
             .tick_chars(&self.spinner_chars())
-            .progress_chars("█░-")
+            .progress_chars(&self.progress_chars())
     }
     // u'░█',
 
