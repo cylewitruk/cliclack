@@ -52,16 +52,18 @@ fn main() -> std::io::Result<()> {
             progressbar =
                 progressbar.stop(format!("{} {}", style("✔").green(), "Copying files"))?;
         } else {
-            progressbar.increment(thread_rng().gen_range(1..20));
+            progressbar.increment(thread_rng().gen_range(1..25));
         }
 
         if downloadbar.get_position() >= downloadbar.get_length() && !downloadbar.is_finished() {
             downloadbar =
                 downloadbar.stop(format!("{} {}", style("✔").green(), "Downloading files"))?;
         } else {
-            downloadbar.increment(thread_rng().gen_range(1..13));
+            downloadbar.increment(thread_rng().gen_range(1..17));
         }
     }
+
+    std::thread::sleep(Duration::from_millis(250));
 
     outro("Done!")?;
 

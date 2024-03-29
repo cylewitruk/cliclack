@@ -253,10 +253,6 @@ impl<'a> ProgressBarWrapper<'a> {
 
 impl ProgressBarWrapper<'_> {
     pub fn start(&self, length: u64, message: impl Display) {
-        // self.multi_progress_bar.progress_bars
-        //     .write()
-        //     .unwrap()
-        //     .push(self.progress_bar.clone());
         self.progress_bar.start(length, message);
     }
 
@@ -266,8 +262,7 @@ impl ProgressBarWrapper<'_> {
 
     pub fn stop(self, message: impl Display) -> std::io::Result<Self> {
         self.progress_bar.stop(message)?;
-        self.multi_progress_bar
-            .check_finish(self.progress_bar.clone());
+        self.multi_progress_bar.check_finish();
         Ok(self)
     }
 
@@ -383,22 +378,7 @@ impl MultiProgressBar {
         ProgressBarWrapper::new(pb.clone(), self)
     }
 
-    pub fn add_spinner(&self) -> ProgressBarWrapper {
-        let indicatif_pb = self.inner.add(indicatif::ProgressBar::new_spinner());
-
-        let pb = Arc::new(ProgressBar {
-            progress_bar: RwLock::new(indicatif_pb),
-            multiline: RwLock::new(None),
-            kind: ProgressBarKind::Progress.into(),
-            title: RwLock::new(None),
-        });
-
-        self.progress_bars.write().unwrap().push(pb.clone());
-
-        ProgressBarWrapper::new(pb.clone(), self)
-    }
-
-    fn check_finish(&self, pb: Arc<ProgressBar>) {
+    fn check_finish(&self) {
         if self.is_finished() {
             let bars = self.progress_bars.write().unwrap();
 
@@ -415,11 +395,6 @@ impl MultiProgressBar {
 
             let title_refs = titles.iter().map(AsRef::as_ref).collect::<Vec<&str>>();
             term_write(theme.format_multiprogres_stop(&self.heading, &title_refs)).unwrap();
-            // for bar in bars.iter() {
-            //     let theme = THEME.lock().unwrap();
-            //     let title = bar.title.read().unwrap().as_ref().unwrap().to_string();
-            //     term_write(theme.format_multiprogress_title(&title, ThemeState::Submit)).unwrap();
-            // }
         }
     }
 }
